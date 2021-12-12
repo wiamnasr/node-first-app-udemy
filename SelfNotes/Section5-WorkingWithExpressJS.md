@@ -138,3 +138,99 @@ server.listen(3000);
 
 <p class="paraS"> <span class="tab"/> <span class="keyword">"use"</span> allows us to add a new middleware function. It accepts an array of request handlers (has other use cases too). One easy way of using it, is through simply passing a function through it, that will be executed for every incoming request<br></br><span class="tab"/>This function will receive three arguments. The "request" and the "response" objects and a third, the "next" argument. "req" and "res" are basically what we know so far, but with some extra features. "next", is actually a function that will be passed to the app.use((req,res,next)=>{...}) function by express.js<br></br><span class="tab"/> This can be confusing, as we are passing a function as an argument to the "use" method and this function we are passing, is receiving yet another function here on the "next" argument. And this "next" argument (the function we are receiving as a third argument of the app.use function), has to be executed to allow the request to travel on to the next middleware!</p>
 <br></br>
+
+```javascript
+const http = require("http");
+
+const express = require("express");
+
+const app = express();
+
+app.use((req, res, next) => {
+  console.log("In the middleware!");
+
+  // allows the request to continue to the next middleware in line!
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log("In another middleware!");
+});
+
+const server = http.createServer(app);
+
+server.listen(3000);
+```
+
+<br></br>
+
+<p class="paraS"> <span class="tab"/>Important to note that Express.js does not send a default response, instead we have to set the response. using the response object, named "res" here, it gets easier thanks to express.js to send a response. We can set a header, write, ... just like before, but there is a new utility function we can use, called <span class="keyword">"send"</span> which allows us to send a response. It also allows us to attach a body of type any. E.g. html (in network tab, under header, content type is automatically set to text-html), in this case we do not call next(); here and we do the alternative, which is sending a response with send </p>
+<br></br>
+
+> ### We either use next() to reach the next middleware, or we send a response to not do anything else
+
+<br></br>
+
+```javascript
+const http = require("http");
+
+const express = require("express");
+
+const app = express();
+
+app.use((req, res, next) => {
+  console.log("In the middleware!");
+  next();
+  //   Note that if we send a response here as we do below, instead of next(), we will never reach the next middleware
+});
+
+app.use((req, res, next) => {
+  console.log("In another middleware!");
+  res.send("<h1>Hello from Express!</h1>");
+  //   We don't call next() here, because we are sending a response
+});
+
+const server = http.createServer(app);
+
+server.listen(3000);
+```
+
+<br></br>
+
+> ## In summary, we travel from middleware to middleware, from top to bottom, by calling next
+
+<br></br>
+
+<p class="paraS"> <span class="tab"/><span class="keyword">"app.listen()"</span>  does the two things we did before, it calls http.createServer, and passes itself (the app object) into createServer and in the end, it makes sure that listen gets called on that server object <br></br> This can be found in the Express documentation and looks like the below, although we don't have to worry about it as Express does this for us. Mentioning simply to understand what Express does behind the scenes </p>
+<br></br>
+
+```javascript
+app.listen = function listen() {
+  var server = http.createServer(this);
+  return server.listen.apply(server, arguments);
+};
+```
+
+<br></br>
+
+> ## Now we can remove that http import and use app.listen from Express.js like below
+
+<br></br>
+
+```javascript
+const express = require("express");
+
+const app = express();
+
+app.use((req, res, next) => {
+  console.log("In the middleware!");
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log("In another middleware!");
+  res.send("<h1>Hello from Express!</h1>");
+});
+
+app.listen(3000);
+```
