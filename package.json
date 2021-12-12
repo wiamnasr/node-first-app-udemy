@@ -1,0 +1,19 @@
+{
+  "name": "first-app-udemy",
+  "version": "1.0.0",
+  "description": "udemy course on Node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "wiam nasr",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
