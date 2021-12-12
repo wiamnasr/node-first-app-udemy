@@ -1,11 +1,11 @@
-// Creating a server: 1
 const http = require("http");
 
-// Routes Handler
-const routes = require("./routes");
+const express = require("express");
 
-// Creating a server: 2
-const server = http.createServer(routes);
+const app = express();
 
-// Creating a server: 3
+app.use();
+
+const server = http.createServer(app);
+
 server.listen(3000);
