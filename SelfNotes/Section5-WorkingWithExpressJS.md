@@ -314,7 +314,15 @@ app.listen(3000);
 
 <br></br>
 
-> ### We are also interested in getting the body of our incoming requests (extracting what the user sent us!). Express.js has another convenience feature for us to do just that. If we <span class='keyword'>console.log(req.body)</span> and go to '/product' where we created an input field, upon adding anything in the input field and pressing "Add Product", we are redirected to '/', and in the console, we see undefined
+> ### We are also interested in getting the body of our incoming requests (extracting what the user sent us!). Express.js has another convenience feature for us to do just that. If we <span class='keyword'>console.log(req.body)</span> and go to '/product' where we created an input field, upon adding anything in the input field and pressing "Add Product", we are redirected to '/', and in the console, we see undefined. The reason is, although we are almost there as the request does give us access to the body with "req.body", but by default, request doesn't try to parse the incoming request body
+
+<br></br>
+
+> ### To parse the request body, we need to register a parser, that is done by adding another middleware, typically done before our route handling middlewares because the parsing of the body should be done, no matter where our request ends up
+
+<br></br>
+
+> ### Inside our new middleware for parsing the request body, we want to do exactly that, which requires us to install a third party package <span class="keyword">npm install --save body-parser</span> (using --save not --save dev because this package matters in production, not just a development dependency) which is included in Express, but still we will import it (as it was removed then added before, in case it gets removed in the future to make sure our code still works)
 
 <br></br>
 

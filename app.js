@@ -1,28 +1,37 @@
+const path = require("path");
+
 const express = require("express");
+
+// Importing Admin Routes
+const adminRoutes = require("./routes/admin");
+
+// Importing shop routes
+const shopRoutes = require("./routes/shop");
+
+// importing the body parser
+const bodyParser = require("body-parser");
 
 const app = express();
 
-app.use("/", (req, res, next) => {
-  console.log("I will always run");
-  next();
-});
+// Body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/add-product", (req, res, next) => {
-  console.log("In add-product middleware!");
-  res.send(
-    '<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>'
-  );
-});
+// Serving files statically
+// static method is a built in middleware that serves static files
+// A path to the folder which we want to serve statically is passed in (A folder that we want to grant read access to)
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/product', (req, res, next) => {
-    res.redirect('/');
-    console.log(req.body);
+// admin Routes with /admin filter
+app.use("/admin", adminRoutes);
 
-});
+// store Routes
+app.use(shopRoutes);
 
-app.use("/", (req, res, next) => {
-  console.log("In another middleware!");
-  res.send("<h1>Hello from Express!</h1>");
+// Adding a 404 Error Page
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
 });
 
 app.listen(3000);
+
+// module.exports = path.dirname(require.main.filename);
