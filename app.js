@@ -5,6 +5,8 @@ const express = require("express");
 // importing the body parser
 const bodyParser = require("body-parser");
 
+const errorController = require("./controllers/error");
+
 const app = express();
 
 /*
@@ -55,8 +57,6 @@ app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
 // Adding a 404 Error Page (catch-all)
-app.use((req, res, next) => {
-  res.status(404).render("404", { pageTitle: "Page Not Found", path: "/" });
-});
+app.use(errorController.get404);
 
 app.listen(3000);

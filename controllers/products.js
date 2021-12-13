@@ -1,5 +1,4 @@
-//
-const products = [];
+const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
   res.render("add-product", {
@@ -12,13 +11,23 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
+  // Creating a new object based on the Product class blueprint
+  // This takes the title we have on our input which is submitted
+  const product = new Product(req.body.title);
+
+  // Saving the new Product
+  product.save();
+
   // Later on we want to add more fields here, and therefore will create a new object (makes it clearer whats happening)
   // otherwise I could've pushed the whole req.body as it has the same structure
-  products.push({ title: req.body.title });
+  // products.push({ title: req.body.title });
   res.redirect("/");
 };
 
 exports.getProducts = (req, res, next) => {
+  // Fetching all products with the defined static method on the Product class
+  const products = Product.fetchAll();
+
   // taking the products out of adminData to be able to render dynamic content
   //   const products = adminData.products;
 
