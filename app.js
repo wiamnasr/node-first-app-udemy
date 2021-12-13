@@ -2,16 +2,25 @@ const path = require("path");
 
 const express = require("express");
 
-// Importing Admin Routes
-const adminData = require("./routes/admin");
-
-// Importing shop routes
-const shopRoutes = require("./routes/shop");
-
 // importing the body parser
 const bodyParser = require("body-parser");
 
 const app = express();
+
+/*
+  ejs view engine, like pug auto registers itself with Express
+  Has a nice mixture of the extended functionalities of pug (JS that we can use in our templates) & still it uses normal html like handlebars
+  - rjs does not support layouts, but we will find a solution to have some kind of reusability of certain building blocks
+*/
+// the ejs view engine way
+app.set("view engine", "ejs");
+app.set("views", "views");
+
+// Importing Admin Routes
+const adminRoutes = require("./routes/admin");
+
+// Importing shop routes
+const shopRoutes = require("./routes/shop");
 
 /*
   Using pug template-ing engine, Setting a global configuration value
@@ -26,13 +35,13 @@ const app = express();
   - We can set an additional setting (the views) to tell express where to find our views, however the default setting here for views (express app.set() documentation) is process.cwd() + '/views' (basically our main directory then the views folder)
   - Putting it here just in case the folder name was not views as the default and we had to set some configuration to tell express where to find our views
 */
-app.set("view engine", "pug");
+// app.set("view engine", "pug");
 // Even though its not needed here, but we are including (views is the default
-app.set("views", "views");
+// app.set("views", "views");
 
 // Body parser middleware
 // extended is a config that must be added. It telling if it should be able to parse non default features (added to comply with what we should use here)
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Serving files statically
 // static method is a built in middleware that serves static files
@@ -40,14 +49,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // admin Routes with /admin filter
-app.use("/admin", adminData.routes);
+app.use("/admin", adminRoutes);
 
 // store Routes
 app.use(shopRoutes);
 
 // Adding a 404 Error Page (catch-all)
 app.use((req, res, next) => {
-  res.status(404).render("404", { pageTitle: "Page Not Found" });
+  res.status(404).render("404", { pageTitle: "Page Not Found", path: "/" });
 });
 
 app.listen(3000);
