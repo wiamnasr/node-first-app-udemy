@@ -4,16 +4,18 @@ exports.getAddProduct = (req, res, next) => {
   res.render("admin/add-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true,
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
+  const title = req.body.title;
+  const imageUrl = req.body.imageUrl;
+  const price = req.body.price;
+  const description = req.body.description;
+
   // Creating a new object based on the Product class blueprint
   // This takes the title we have on our input which is submitted
-  const product = new Product(req.body.title);
+  const product = new Product(title, imageUrl, description, price);
 
   // Saving the new Product
   product.save();

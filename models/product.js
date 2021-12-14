@@ -26,13 +26,16 @@ const getProductsFromFile = (cb) => {
 
 module.exports = class Product {
   // receives a title for our product, which we then control from the controller
-  constructor(t) {
+  constructor(title, imageUrl, description, price) {
     /*
         creating a property in a class (variable in a class) with the this keyword, equal to the title we are receiving as an argument
         This allows us to then create an object based on this class, where we can pass the title to the constructor, which we can call with "new"
         Then this will get stored in the created object
     */
-    this.title = t;
+    this.title = title;
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.price = price;
   }
 
   // We want to be able to store our product into an array of products, and fetch it
