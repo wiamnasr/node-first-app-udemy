@@ -30,6 +30,13 @@ exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
 };
 
+exports.getProduct = (req, res, next) => {
+  // Express.js automatically gives us that param object on our request
+  const prodId = req.params.productId;
+  console.log(prodId);
+  res.redirect("/");
+};
+
 // middleware function
 exports.getIndex = (req, res, next) => {
   Product.fetchAll((products) => {

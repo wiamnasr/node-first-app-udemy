@@ -26,7 +26,7 @@ router.get("/products", shopController.getProducts);
     This is because express.js would've already fired this route "/products/:productId". "/delete" will be treated as a dynamic segment such a case
     In short, if we had a dynamic segment, and a specific route, the specific route has to go first
 */
-router.get("/products/:productId");
+router.get("/products/:productId", shopController.getProduct);
 
 router.get("/cart", shopController.getCart);
 
