@@ -73,4 +73,13 @@ module.exports = class Product {
   static fetchAll(cb) {
     getProductsFromFile(cb);
   }
+
+  // New method where we expect to get an id as an arg and also a callback which will be executed once we are done finding the product here
+  static findById(id, cb) {
+    getProductsFromFile((products) => {
+      // filtering out that one product with the id
+      const product = products.find((p) => p.id === id);
+      cb(product);
+    });
+  }
 };
