@@ -4,6 +4,7 @@ exports.getAddProduct = (req, res, next) => {
   res.render("admin/edit-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
+    editing: false,
   });
 };
 
@@ -47,11 +48,32 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect("/");
   }
 
-  res.render("admin/edit-product", {
-    pageTitle: "Edit Product",
-    path: "/admin/edit-product",
-    // Now we only enter edit mode if its set
-    editing: editMode,
+  /*
+    Fetching the product before we pre-populate the form with the product data
+    In edit mode, after not being redirected, we want to get our product info
+    for that we need the product model, which we already have, as well as the product id
+    product id can be retrieved from the incoming request (if we check the routes, we have productId dynamic segment, by this name, we can extract the product id)
+  */
+  const prodId = req.params.productId;
+
+  /*
+    Now we can use our product model, and find this product by id
+    then we have a callback where we receive the product which was retrieved
+    A check will be added to see if we have a product, and re-direct the user if not
+    Assuming we get a product, we want to render the page below
+  */
+  Product.findById(prodId, (product) => {
+    if (!product) {
+      // Not the best user experience, usually we want to show an error instead
+      return res.redirect("/");
+    }
+    res.render("admin/edit-product", {
+      pageTitle: "Edit Product",
+      path: "/admin/edit-product",
+      // Now we only enter edit mode if its set
+      editing: editMode,
+      product: product,
+    });
   });
 };
 
