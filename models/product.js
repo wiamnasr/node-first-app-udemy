@@ -40,6 +40,10 @@ module.exports = class Product {
 
   // We want to be able to store our product into an array of products, and fetch it
   save() {
+    // Adding an id property to the entire object we are working on
+    // Unique id can be generated through an external package, but for now will use Math.random()
+    this.id = Math.random().toString();
+
     //   here we don't forward any callbacks as we have our own logic
     // we do retrieve our products (returning empty array or parse the content)
     // instead we create an anonymous function were we know we will get our products
