@@ -77,6 +77,11 @@ exports.getEditProduct = (req, res, next) => {
   });
 };
 
+exports.postEditProduct = (req, res, next) => {
+  // we want to construct a new product & replace the existing one with this product
+  // This means work on the product model has to be done
+};
+
 exports.getProducts = (req, res, next) => {
   Product.fetchAll((products) => {
     res.render("admin/products", {
