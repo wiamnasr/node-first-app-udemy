@@ -4,5 +4,20 @@
 
   <body>
     <%- include('../includes/navigation.ejs') %>
+    <main>
+      <!-- Checking if we have products in the cart, if so we want to display them -->
+      <% if (products.length > 0) { %>
+        <ul>
+          <% products.forEach(p => {%>
+            <li><%= p.productData.title %>(<%= p.qty %>)</li>
+            
+          <%})%>
+        </ul>
+
+      <% } else { %>
+        <h1>No Products in Cart!</h1>
+
+      <% } %>
+    </main>
 
     <%- include('../includes/end.ejs') %>
