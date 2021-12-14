@@ -1,5 +1,7 @@
 const Product = require("../models/product");
 
+const Cart = require("../models/cart");
+
 exports.getProducts = (req, res, next) => {
   // Fetching all products with the defined static method on the Product class
   // in fetchAll, we pass in function, where we know we'll eventually get our products
@@ -67,7 +69,9 @@ exports.postCart = (req, res, next) => {
   // then add it to our cart
 
   const prodId = req.body.productId;
-  console.log(prodId);
+  Product.findById(prodId, (product) => {
+    Cart.addProduct(prodId, product.price);
+  });
   res.redirect("/cart");
 };
 
