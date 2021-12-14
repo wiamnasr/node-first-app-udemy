@@ -30,6 +30,9 @@ router.get("/products/:productId", shopController.getProduct);
 
 router.get("/cart", shopController.getCart);
 
+// Adding a new route, that accepts a POST request, to "/cart"
+router.post("/cart", shopController.postCart);
+
 router.get("/checkout", shopController.getCheckout);
 
 module.exports = router;

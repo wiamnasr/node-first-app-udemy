@@ -1,0 +1,5 @@
+<form action="/cart" method="POST">
+  <button class="btn" type="submit">Add to cart</button>
+  <!-- passing important information as part of the POST request -->
+  <input type="hidden" name="productId" value="<%= product.id %>" />
+</form>
