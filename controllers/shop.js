@@ -1,30 +1,5 @@
 const Product = require("../models/product");
 
-exports.getAddProduct = (req, res, next) => {
-  res.render("admin/add-product", {
-    pageTitle: "Add Product",
-    path: "/admin/add-product",
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true,
-  });
-};
-
-exports.postAddProduct = (req, res, next) => {
-  // Creating a new object based on the Product class blueprint
-  // This takes the title we have on our input which is submitted
-  const product = new Product(req.body.title);
-
-  // Saving the new Product
-  product.save();
-
-  // Later on we want to add more fields here, and therefore will create a new object (makes it clearer whats happening)
-  // otherwise I could've pushed the whole req.body as it has the same structure
-  // products.push({ title: req.body.title });
-
-  res.redirect("/");
-};
-
 exports.getProducts = (req, res, next) => {
   // Fetching all products with the defined static method on the Product class
   // in fetchAll, we pass in function, where we know we'll eventually get our products
@@ -43,11 +18,8 @@ exports.getProducts = (req, res, next) => {
   */
     res.render("shop/product-list", {
       prods: products,
-      pageTitle: "Shop",
-      path: "/",
-      hasProducts: products.length > 0,
-      activeShop: true,
-      productCSS: true,
+      pageTitle: "All Products",
+      path: "/products",
     });
   });
 
@@ -56,4 +28,29 @@ exports.getProducts = (req, res, next) => {
 
   // console.log(adminData.products);
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
+};
+
+// middleware function
+exports.getIndex = (req, res, next) => {
+  Product.fetchAll((products) => {
+    res.render("shop/index", {
+      prods: products,
+      pageTitle: "Shop",
+      path: "/",
+    });
+  });
+};
+
+exports.getCart = (req, res, next) => {
+  res.render("shop/cart", {
+    path: "/cart",
+    pageTitle: "Your Cart",
+  });
+};
+
+exports.getCheckout = (req, res, next) => {
+  res.render("shop/checkout", {
+    path: "/checkout",
+    pageTitle: "Checkout",
+  });
 };
