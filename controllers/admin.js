@@ -16,7 +16,7 @@ exports.postAddProduct = (req, res, next) => {
 
   // Creating a new object based on the Product class blueprint
   // This takes the title we have on our input which is submitted
-  const product = new Product(title, imageUrl, description, price);
+  const product = new Product(null, title, imageUrl, description, price);
 
   // Saving the new Product
   product.save();
@@ -78,8 +78,28 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  // we want to construct a new product & replace the existing one with this product
-  // This means work on the product model has to be done
+  // We need to do 2 things. 1 => fetch information for the product. 2 => create a new product instance, and populate it with that information, then call save
+  const prodId = req.body.productId;
+
+  const updatedTitle = req.body.title;
+  const updatedPrice = req.body.price;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedDesc = req.body.description;
+
+  // with all that data, we can create an updated product
+  // passing prodId as a first argument, to ensure that in the product model check we find a valid id, and therefore go to updating mode, instead of the add mode
+  const updatedProduct = new Product(
+    prodId,
+    updatedTitle,
+    updatedImageUrl,
+    updatedDesc,
+    updatedPrice
+  );
+  // Now we can call save, that should save updated product, over-writing the existing one
+  updatedProduct.save();
+
+  //  We should make sure to send a response back in our controller
+  res.redirect("/admin/products");
 };
 
 exports.getProducts = (req, res, next) => {

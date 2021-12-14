@@ -23,7 +23,7 @@ router.post("/add-product", adminController.postAddProduct);
 router.get("/edit-product/:productId", adminController.getEditProduct);
 
 // this post route will not receive any dynamic segment, because its a post request, so data can be enclosed with the request we're sending
-router.post("/edit-product");
+router.post("/edit-product", adminController.postEditProduct);
 
 // exports.routes = router;
 // exports.products = products;
