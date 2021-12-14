@@ -60,15 +60,15 @@ exports.getCart = (req, res, next) => {
   Cart.getCart((cart) => {
     Product.fetchAll((products) => {
       const cartProducts = [];
-      for (product of products) {
+      products.forEach((product) => {
         const cartProductData = cart.products.find(
-          (prod) => prod.id === prod.id
+          (prod) => prod.id === product.id
         );
         // If we find an id n the cart, we then know that the product is part of that
         if (cartProductData) {
           cartProducts.push({ productData: product, qty: cartProductData.qty });
         }
-      }
+      });
       res.render("shop/cart", {
         path: "/cart",
         pageTitle: "Your Cart",
