@@ -12,7 +12,7 @@ const app = express();
 /*
   ejs view engine, like pug auto registers itself with Express
   Has a nice mixture of the extended functionalities of pug (JS that we can use in our templates) & still it uses normal html like handlebars
-  - rjs does not support layouts, but we will find a solution to have some kind of reusability of certain building blocks
+  - ejs does not support layouts, but we will find a solution to have some kind of reusability of certain building blocks
 */
 // the ejs view engine way
 app.set("view engine", "ejs");
