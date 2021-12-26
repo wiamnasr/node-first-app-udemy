@@ -19,13 +19,19 @@ exports.postAddProduct = (req, res, next) => {
   const product = new Product(null, title, imageUrl, description, price);
 
   // Saving the new Product
-  product.save();
+  product
+    .save()
+    .then(() => {
+      // redirecting once the insert is completed
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   // Later on we want to add more fields here, and therefore will create a new object (makes it clearer whats happening)
   // otherwise I could've pushed the whole req.body as it has the same structure
   // products.push({ title: req.body.title });
-
-  res.redirect("/");
 };
 
 // Here I plan on passing in my product information

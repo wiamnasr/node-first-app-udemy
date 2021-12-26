@@ -11,6 +11,7 @@ const p = path.join(
 
 module.exports = class Cart {
   // There will always be a cart in our application, we just want to manage the products in it
+  // no need for a constructor
 
   static addProduct(id, productPrice) {
     // Fetch the previous cart
@@ -40,7 +41,7 @@ module.exports = class Cart {
         updatedProduct = { id: id, qty: 1 };
         cart.products = [...cart.products, updatedProduct];
       }
-      // updating totalPrice in the cart, adding + infront of productPrice to convert to number
+      // updating totalPrice in the cart, adding + in front of productPrice to convert to number
       cart.totalPrice = cart.totalPrice + +productPrice;
 
       //   Saving back
@@ -61,7 +62,7 @@ module.exports = class Cart {
       if (!product) {
         return;
       }
-      
+
       // we need the product to find out the quantity
       const productQty = product.qty;
 
@@ -69,8 +70,6 @@ module.exports = class Cart {
       updatedCart.products = updatedCart.products.filter(
         (prod) => prod.id !== id
       );
-
-      
 
       updatedCart.totalPrice =
         updatedCart.totalPrice - productPrice * productQty;

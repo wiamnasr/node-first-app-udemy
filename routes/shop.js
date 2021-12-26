@@ -33,6 +33,10 @@ router.get("/cart", shopController.getCart);
 // Adding a new route, that accepts a POST request, to "/cart"
 router.post("/cart", shopController.postCart);
 
+router.post("/cart-delete-item", shopController.postCartDeleteProduct);
+
+router.get("/orders", shopController.getOrders);
+
 router.get("/checkout", shopController.getCheckout);
 
 module.exports = router;

@@ -7,6 +7,9 @@ const bodyParser = require("body-parser");
 
 const errorController = require("./controllers/error");
 
+// importing pool
+const db = require("./util/database");
+
 const app = express();
 
 /*
@@ -23,6 +26,15 @@ const adminRoutes = require("./routes/admin");
 
 // Importing shop routes
 const shopRoutes = require("./routes/shop");
+
+// testing code for db
+// db.execute("SELECT * FROM products")
+//   .then((result) => {
+//     console.log(result[0], result[1]);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 /*
   Using pug template-ing engine, Setting a global configuration value
