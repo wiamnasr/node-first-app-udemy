@@ -31,5 +31,5 @@ const pool = mysql.createPool({
   password: "",
 });
 
-// using promise chains
+// using promise chains to export that will allow us to use promises for async connections
 module.exports = pool.promise();
