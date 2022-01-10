@@ -41,9 +41,18 @@ app.use(shopRoutes);
 // Adding a 404 Error Page (catch-all)
 app.use(errorController.get404);
 
+// Relating the Product and User
+// We are talking about a user creating a product and not purchasing at this point
+// second argument is optional and is passed to configure, defining how the relationship will be managed
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
+
+// Defining the inverse (optional, not needed here) => one user can add more than one product to the shop
+User.hasMany(Product);
+
 // the sync method has a look at all the models defined and then creates appropriate tables and relations (if present) for them
 sequelize
-  .sync()
+  // ensuring that we are over-writing with new information with setting force to true
+  .sync({ force: true })
   .then((result) => {
     // console.log(result);
     // starting the server if we get into this stage
